@@ -7,46 +7,35 @@ let appName = process.argv[2];
 let appDirectory = `${process.cwd()}/${appName}`;
 
 const run = async () => {
-  let success = await createReactApp();
-  if (!success) {
-    console.log(
-      "Something went wrong while trying to create a new React app using create-react-app"
-        .red
-    );
-    return false;
-  }
+  await createReactApp();
   await cdIntoNewApp();
   await installPackages();
   await updateTemplates();
-  console.log("All done");
 };
 
-const createReactApp = () => {
-  return new Promise(resolve => {
+const createReactApp = async () => {
+  await new Promise((resolve, reject) => {
     if (appName) {
-      shell.exec(`yarn create react-app ${appName}`, code => {
-        console.log("Exited with code ", code);
-        console.log("Created react app");
-        resolve(true);
-      });
+      shell.exec(`yarn create react-app ${appName}`);
     } else {
       console.log("\nNo app name was provided.".red);
       console.log("\nProvide an app name in the following format: ");
       console.log("\ncreate-react-redux-router-app ", "app-name\n".cyan);
-      resolve(false);
+      reject();
     }
+    resolve()
   });
 };
 
-const cdIntoNewApp = () => {
-  return new Promise(resolve => {
+const cdIntoNewApp = async () => {
+  await new Promise(resolve => {
     shell.cd(appDirectory);
     resolve();
   });
 };
 
-const installPackages = () => {
-  return new Promise(resolve => {
+const installPackages = async () => {
+  await new Promise(resolve => {
     console.log("\nInstalling Dependencies\n".cyan);
     shell.exec(
       `npm install -D typescript node-sass axios react-router react-router-dom lodash framer-motion reset-css moment @types/node @types/lodash @types/react-router @types/react-router-dom`,
@@ -58,8 +47,8 @@ const installPackages = () => {
   });
 };
 
-const updateTemplates = () => {
-  return new Promise(resolve => {
+const updateTemplates = async () => {
+  await new Promise(resolve => {
     let promises = [];
 
     //remove files
@@ -76,15 +65,16 @@ const updateTemplates = () => {
 
     //add files
     promises.push(
-      fs.copy(`${__dirname}/templates`, `${appDirectory}/src/`, {}, function(
-        err
-      ) {
-        if (err) return console.log(err);
-        res();
-      })
+      new Promise(res =>
+        fs.copy(`${__dirname}/templates`, `${appDirectory}/src/`, {}, err => {
+          if (err) console.error(err);
+          res();
+        })
+      )
     );
 
-    Promise.all(promises).then(resolve);
+    await Promise.all(promises);
+    resolve();
   });
 };
 
