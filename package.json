@@ -5,7 +5,7 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sFrady20/create-react-app-extra"
+    "url": "https://github.com/sFrady20/reactor-enrichment"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
