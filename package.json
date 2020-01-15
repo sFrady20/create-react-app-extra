@@ -1,7 +1,7 @@
 {
-  "name": "create-react-app-extra",
+  "name": "reactor-enrichment",
   "version": "0.0.1",
-  "description": "A thin wrapper around Facebook's create-react-app which adds some common libraries needed for most medium to large-sized web apps",
+  "description": "",
   "main": "index.js",
   "repository": {
     "type": "git",
@@ -19,6 +19,6 @@
     "shelljs": "^0.7.8"
   },
   "bin": {
-    "create-react-redux-router-app": "index.js"
+    "reactor-enrich-webapp": "index.js"
   }
 }

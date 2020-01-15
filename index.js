@@ -24,7 +24,7 @@ const run = async () => {
 const createReactApp = () => {
   return new Promise(resolve => {
     if (appName) {
-      shell.exec(`create-react-app ${appName}`, code => {
+      shell.exec(`yarn create react-app ${appName}`, code => {
         console.log("Exited with code ", code);
         console.log("Created react app");
         resolve(true);
